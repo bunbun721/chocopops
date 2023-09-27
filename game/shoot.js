@@ -1,3 +1,9 @@
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+}
+
 var bulletTime1 = 0;
 
 var bullet_player1_material = new THREE.MeshLambertMaterial(
@@ -38,6 +44,7 @@ function collisions()
     player_collision();
     player_falling();
     ennemy_moving();
+    ennemy_random_shoot();
 }
 
 function bullet_collision()
@@ -72,6 +79,23 @@ function bullet_collision()
         }
     }
 
+    // collission between bullet and player
+    for (var i = 0; i < ennemy1.bullets.length; i++)
+    {
+        var x = ennemy1.bullets[i].position.x;
+        var y = ennemy1.bullets[i].position.y;
+
+        if (x > player1.graphic.position.x - 10 &&
+            x < player1.graphic.position.x + 10 &&
+            y > player1.graphic.position.y - 10 &&
+            y < player1.graphic.position.y + 10)
+        {
+            scene.remove(ennemy1.bullets[i]);
+            ennemy1.bullets.splice(i, 1);
+            i--;
+            decrease_player_life();
+        }
+    }
 }
 
 function player_collision()
@@ -128,4 +152,36 @@ function ennemy_moving()
     ennemy1.graphic.position.y += 0.5;
     if (ennemy1.graphic.position.y > HEIGHT / 2)
         ennemy1.graphic.position.y = -HEIGHT / 2;
+}
+
+function ennemy_random_shoot()
+{
+    if (getRandomIntInclusive(0, 100) == 0)
+    {
+        bullet = new THREE.Mesh(
+            new THREE.SphereGeometry(2),
+            bullet_player1_material);
+        scene.add(bullet);
+        bullet.position.x = ennemy1.graphic.position.x + 7.5 * Math.cos(ennemy1.direction);
+        bullet.position.y = ennemy1.graphic.position.y + 7.5 * Math.sin(ennemy1.direction);
+        bullet.angle = ennemy1.direction;
+        ennemy1.bullets.push(bullet);
+    } 
+
+    // move bullets
+    var moveDistance = 5;
+
+    for (var i = 0; i < ennemy1.bullets.length; i++)
+    {
+        ennemy1.bullets[i].position.x += moveDistance * Math.cos(ennemy1.bullets[i].angle);
+        ennemy1.bullets[i].position.y += moveDistance * Math.sin(ennemy1.bullets[i].angle);
+    }
+}
+
+function decrease_player_life()
+{
+    player1.life--;
+    player1.displayInfo();
+    if (player1.life <= 0)
+        player1.dead();
 }
