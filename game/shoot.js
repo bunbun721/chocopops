@@ -115,6 +115,7 @@ function player_collision()
 
 }
 
+var t = 0;
 function player_falling()
 {
     var nb_tile = 10;
@@ -128,7 +129,7 @@ function player_falling()
     for (var i = 0; i < length; i++) {
         element = noGround[i];
 
-        if (element == undefined || element == undefined)
+        if (element == undefined)
             continue;
 
         var tileX = (element[0]) | 0;
@@ -141,7 +142,11 @@ function player_falling()
             && (y > tileY) 
             && (y < mtileY))
         {
-           player1.dead();
+            if (t + 1 < clock.getElapsedTime())
+            {
+                t = clock.getElapsedTime();
+                decrease_player_life()
+            }
         }
     }
 
