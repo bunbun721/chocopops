@@ -37,6 +37,7 @@ function collisions()
     bullet_collision();
     player_collision();
     player_falling();
+    ennemy_moving();
 }
 
 function bullet_collision()
@@ -120,4 +121,11 @@ function player_falling()
         }
     }
 
+}
+
+function ennemy_moving()
+{
+    ennemy1.graphic.position.y += 0.5;
+    if (ennemy1.graphic.position.y > HEIGHT / 2)
+        ennemy1.graphic.position.y = -HEIGHT / 2;
 }
