@@ -138,9 +138,9 @@ function player_falling()
         var mtileY = (element[1] + sizeOfTileY) | 0;
 
         if ((x > tileX)
-            && (x < mtileX)
+            && (x < mtileX-10)
             && (y > tileY) 
-            && (y < mtileY))
+            && (y < mtileY-10))
         {
             if (t + 1 < clock.getElapsedTime())
             {
@@ -157,6 +157,13 @@ function ennemy_moving()
     ennemy1.graphic.position.y += 0.5;
     if (ennemy1.graphic.position.y > HEIGHT / 2)
         ennemy1.graphic.position.y = -HEIGHT / 2;
+
+    // make ennemy look at player
+    var dx = player1.graphic.position.x - ennemy1.graphic.position.x;
+    var dy = player1.graphic.position.y - ennemy1.graphic.position.y;
+    ennemy1.direction = Math.atan2(dy, dx);
+    ennemy1.graphic.rotation.z = ennemy1.direction;
+    
 }
 
 function ennemy_random_shoot()
