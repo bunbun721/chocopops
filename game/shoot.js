@@ -138,9 +138,9 @@ function player_falling()
         var mtileY = (element[1] + sizeOfTileY) | 0;
 
         if ((x > tileX)
-            && (x < mtileX-10)
+            && (x < mtileX-(sizeOfTileX/2))
             && (y > tileY) 
-            && (y < mtileY-10))
+            && (y < mtileY-(sizeOfTileY/2)))
         {
             if (t + 1 < clock.getElapsedTime())
             {
