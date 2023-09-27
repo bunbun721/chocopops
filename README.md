@@ -31,3 +31,8 @@ A video game with three.js
 - [x] : As a ennemy, I want to move on one axe
 - [x] : As a player, I want to decrease my life when I am touch by an ennemy
 - [x] : As a player, I want to decrease my life when I fall 
+
+# BONUS
+- [x] : Make ennemy shoot in the direction of the player
+- [x] : Make ennemy red
+
